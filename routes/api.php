@@ -18,4 +18,7 @@ use App\Http\Controllers\userapicontroller;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+//Get Route for fetch user
 Route::get('/users/{id?}',[userapicontroller::class,'showuser']);
+//post Route for get user
+Route::post('/add-user',[userapicontroller::class,'adduser']);
