@@ -6,7 +6,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Validator;
 
-class userapicontroller extends Controller
+class UserApiController extends Controller
 {
     public function showuser($id=null){
         if($id==''){
