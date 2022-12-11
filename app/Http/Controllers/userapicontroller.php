@@ -49,4 +49,41 @@ class userapicontroller extends Controller
         }
 
     }
+
+    // Post api for multiple user
+    public function addmultipleuser(Request $request){
+        if($request->ismethod('post')){
+            $data=$request->all();
+            //return $data;
+            $rules=[
+                'users.*.name'=> 'required',
+                'users.*.email'=> 'required|email|unique:users',
+                'users.*.password'=> 'required',
+            ];
+            $custommessage=[
+                'users.*.name.required'=>'name is Required',
+                'users.*.email.required'=>'email is Required',
+                'users.*.email.email'=>'email must be a valid',
+                'users.*.password.required'=>'password is Required',
+            ];
+
+            $validator=Validator::make($data,$rules,$custommessage);
+            if ($validator->fails()){
+                return response()->json($validator->errors(),422);
+            }
+
+           foreach($data['users'] as $adduser){
+            $user= new User();
+            $user->name=$adduser['name'];
+            $user->email=$adduser['email'];
+            $user->password=$adduser['password'];
+            $user->save();
+            $message='user successfully Added';
+            }
+            return response()->json(['message'=>$message],201);
+
+        }
+
+    }
+
 }
